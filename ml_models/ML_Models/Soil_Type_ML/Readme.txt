@@ -1,0 +1,2 @@
+The images for the Soil Type Model were not included in git because of size limitations. They are included in the Drive link:
+https://drive.google.com/drive/folders/1xneSeKcxFNVpQ1c5uvTkJGzp44NycpMX?usp=sharing

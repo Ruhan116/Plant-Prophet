@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Recommendation</title>
+</head>
+<body>
+    <h1>Enter the following values:</h1>
+    <form action="/crop_recommendation" method="post">
+        Nitrogen (N): <input type="number" name="N" step="any" required><br>
+        Phosphorus (P): <input type="number" name="P" step="any" required><br>
+        Potassium (K): <input type="number" name="K" step="any" required><br>
+        Temperature (°C): <input type="number" name="temperature" step="any" required><br>
+        Humidity (%): <input type="number" name="humidity" step="any" required><br>
+        pH level: <input type="number" name="ph" step="any" required><br>
+        Rainfall (mm): <input type="number" name="rainfall" step="any" required><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if recommended_crop %}
+        <p>Recommended Crop: {{ recommended_crop }}</p>
+    {% endif %}
+</body>
+</html>

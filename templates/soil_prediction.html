@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soil Prediction</title>
+</head>
+<body>
+    <h1>Soil Prediction</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="image">Upload an image of soil:</label>
+        <input type="file" name="image" id="image" required>
+        <button type="submit">Predict Soil Type</button>
+    </form>
+    {% if predicted_soil_type %}
+        <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
+        <a href="/crop_recommendation">Next: Crop Recommendation</a>
+    {% endif %}
+</body>
+</html>
