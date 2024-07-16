@@ -5,19 +5,63 @@
     <title>Crop Recommendation</title>
 </head>
 <body>
-    <h1>Enter the following values:</h1>
-    <form action="/crop_recommendation" method="post">
-        Nitrogen (N): <input type="number" name="N" step="any" required><br>
-        Phosphorus (P): <input type="number" name="P" step="any" required><br>
-        Potassium (K): <input type="number" name="K" step="any" required><br>
-        Temperature (°C): <input type="number" name="temperature" step="any" required><br>
-        Humidity (%): <input type="number" name="humidity" step="any" required><br>
-        pH level: <input type="number" name="ph" step="any" required><br>
-        Rainfall (mm): <input type="number" name="rainfall" step="any" required><br>
-        <input type="submit" value="Predict">
+    <h1>Crop Recommendation System</h1>
+    <form action="{{ url_for('crop_recommendation') }}" method="post" enctype="multipart/form-data">
+        <label for="station">Select a station:</label>
+        <select id="station" name="station">
+            <option value="Barisal">Barisal</option>
+            <option value="Bhola">Bhola</option>
+            <option value="Bogra">Bogra</option>
+            <option value="Chandpur">Chandpur</option>
+            <option value="Chittagong">Chittagong</option>
+            <option value="Comilla">Comilla</option>
+            <option value="Cox's Bazar">Cox's Bazar</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Faridpur">Faridpur</option>
+            <option value="Feni">Feni</option>
+            <option value="Hatiya">Hatiya</option>
+            <option value="Ishurdi">Ishurdi</option>
+            <option value="Jessore">Jessore</option>
+            <option value="Khepupara">Khepupara</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Kutubdia">Kutubdia</option>
+            <option value="M.court">M.court</option>
+            <option value="Madaripur">Madaripur</option>
+            <option value="Mymensingh">Mymensingh</option>
+            <option value="Patuakhali">Patuakhali</option>
+            <option value="Rajshahi">Rajshahi</option>
+            <option value="Rangamati">Rangamati</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Sandwip">Sandwip</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Sitakunda">Sitakunda</option>
+            <option value="Srimangal">Srimangal</option>
+            <option value="Sylhet">Sylhet</option>
+            <option value="Teknaf">Teknaf</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Chuadanga">Chuadanga</option>
+            <option value="Mongla">Mongla</option>
+            <option value="Sydpur">Sydpur</option>
+            <option value="Ambagan(Ctg)">Ambagan(Ctg)</option>
+        </select>
+        <br><br>
+        <label for="city">Enter your city:</label>
+        <input type="text" id="city" name="city" required>
+        <br><br>
+        <label for="image">Upload an image of soil:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <br><br>
+        <input type="submit" value="Get Recommendation">
     </form>
-    {% if recommended_crop %}
-        <p>Recommended Crop: {{ recommended_crop }}</p>
+    {% if recommended_crops %}
+        <h2>Recommended Crops:</h2>
+        <ul>
+            {% for crop in recommended_crops %}
+                <li>{{ crop }}</li>
+            {% endfor %}
+        </ul>
+        <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
     {% endif %}
 </body>
 </html>

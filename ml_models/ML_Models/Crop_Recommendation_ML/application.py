@@ -42,7 +42,7 @@ x_test = sc.transform(x_test)
 models = {
     'Logistic Regression': LogisticRegression(),
     'Naive Bayes': GaussianNB(),
-    'Support Vector Machine': SVC(),
+    'Support Vector Machine': SVC(probability=True),  # Enable probability estimates
     'K-Nearest Neighbors': KNeighborsClassifier(),
     'Decision Tree': DecisionTreeClassifier(),
     'Random Forest': RandomForestClassifier(),

@@ -5,8 +5,26 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Welcome to the Farming Application</h1>
-    <a href="/soil_prediction">Soil Prediction</a>
+    <h1>Welcome to the Plant Prophet</h1>
+
+    <form method="post">
+        <label for="city">Enter city name:</label>
+        <input type="text" id="city" name="city" required>
+        <input type="submit" value="Get Weather">
+    </form>
+
+    {% if weather_data %}
+        <h2>Current Weather in {{ weather_data.name }}:</h2>
+        <p>Temperature: {{ weather_data.main.temp }}°C</p>
+        <p>Weather: {{ weather_data.weather[0].description }}</p>
+        <p>Humidity: {{ weather_data.main.humidity }}%</p>
+        <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
+    {% elif error_message %}
+        <p>{{ error_message }}</p>
+    {% else %}
+        <p>Weather data is not available at the moment.</p>
+    {% endif %}
+    
     <a href="/crop_recommendation">Crop Recommendation</a>
 </body>
 </html>

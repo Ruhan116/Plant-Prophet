@@ -1,0 +1,10 @@
+Flask
+tensorflow
+joblib
+numpy
+Pillow
+authlib
+python-dotenv
+pandas
+scikit-learn
+requests
