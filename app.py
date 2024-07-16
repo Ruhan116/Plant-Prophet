@@ -82,6 +82,7 @@ def index():
     return render_template('index.html', weather_data=weather_data, error_message=error_message)
 
 @app.route('/crop_recommendation', methods=['GET', 'POST'])
+@login_required
 def crop_recommendation():
     if request.method == 'POST':
         try:
