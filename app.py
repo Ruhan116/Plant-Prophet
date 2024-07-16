@@ -82,7 +82,6 @@ def index():
     return render_template('index.html', weather_data=weather_data, error_message=error_message)
 
 @app.route('/crop_recommendation', methods=['GET', 'POST'])
-@login_required
 def crop_recommendation():
     if request.method == 'POST':
         try:
@@ -161,8 +160,10 @@ def get_expected_rainfall(station, year, month):
 
 @app.route('/login')
 def login():
+    print("Accessing login route")
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
+    print(f"Redirect URI: {redirect_uri}")
     return google.authorize_redirect(redirect_uri)
 
 @app.route('/authorize')
