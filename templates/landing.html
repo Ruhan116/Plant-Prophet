@@ -1,0 +1,47 @@
+<!-- templates/landing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Logo" class="logo">
+                <div class="header-right">
+                    <div class="btn-group">
+                        <button class="sign-in-btn" onclick="window.location.href='/login'">Sign In</button>
+                        <button class="home-btn" onclick="window.location.href='/'"><i class="fa-solid fa-house"></i></button>
+                        <button class="weather-btn" onclick="window.location.href='/weather'"><i class="fa-solid fa-cloud"></i></button>
+                    </div>
+                    <!-- <p class="greeting">Good Morning, <span id="username">Leonard</span></p> -->
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="manage-farm">
+                <div class="farm-options">  
+                    <div class="option" onclick="window.location.href='/mycrops'">
+                        <img src="{{ url_for('static', filename='images/farmer2.png') }}" alt="My Crops">
+                        <p class ="text-muted fw-bold">My Crops</p>
+                    </div>
+                    <div class="option" onclick="window.location.href='/crop_recommendation'">
+                        <img src="{{ url_for('static', filename='images/crops.png') }}" alt="Crop Recommendation">
+                        <p class ="text-muted fw-bold">Crop Predict</p>
+                    </div>
+                    <div class="option" onclick="window.location.href='/articles'">
+                        <img src="{{ url_for('static', filename='images/news.png') }}" alt="Articles">
+                        <p class ="text-muted fw-bold">Articles</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -2,29 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Prophet</title>
+    <style>
+        body {
+            background-color: #9c27b0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .weather-app {
+            background-color: #ba68c8;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        .weather-app h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        .weather-app input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+        }
+        .weather-app input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ab47bc;
+            color: white;
+            cursor: pointer;
+        }
+        .weather-app .weather-result {
+            background-color: #ba68c8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: white;
+        }
+        .weather-app .weather-result h2 {
+            margin: 0;
+        }
+        .weather-app .weather-result p {
+            margin: 5px 0;
+        }
+        .weather-app .weather-icon {
+            width: 50px;
+            height: 50px;
+            margin: 10px 0;
+        }
+        .weather-app .hourly-forecast {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .weather-app .hour {
+            text-align: center;
+        }
+        .weather-app .hour img {
+            width: 30px;
+            height: 30px;
+        }
+        .weather-app a {
+            color: white;
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Plant Prophet</h1>
-
-    <form method="post">
-        <label for="city">Enter city name:</label>
-        <input type="text" id="city" name="city" required>
-        <input type="submit" value="Get Weather">
-    </form>
-
-    {% if weather_data %}
-        <h2>Current Weather in {{ weather_data.name }}:</h2>
-        <p>Temperature: {{ weather_data.main.temp }}°C</p>
-        <p>Weather: {{ weather_data.weather[0].description }}</p>
-        <p>Humidity: {{ weather_data.main.humidity }}%</p>
-        <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
-    {% elif error_message %}
-        <p>{{ error_message }}</p>
-    {% else %}
-        <p>Weather data is not available at the moment.</p>
-    {% endif %}
-    
-    <a href="/crop_recommendation">Crop Recommendation</a>
+    <div class="weather-app">
+        <h1>Weather App</h1>
+        <form method="post">
+            <input type="text" id="city" name="city" placeholder="Enter city" required>
+            <input type="submit" value="Search">
+        </form>
+        {% if weather_data %}
+        <div class="weather-result">
+            <h2>{{ weather_data.name }}</h2>
+            <img src="{{ weather_icon_url }}" alt="Weather Icon" class="weather-icon">
+            <p>{{ weather_data.main.temp }}°C</p>
+            <p>{{ weather_data.weather[0].description }}</p>
+            <p>Humidity: {{ weather_data.main.humidity }}%</p>
+            <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
+            <div class="hourly-forecast">
+                {% for hour in hourly_forecast %}
+                <div class="hour">
+                    <p>{{ hour.time }}</p>
+                    <img src="{{ hour.icon_url }}" alt="Hourly Icon">
+                    <p>{{ hour.temp }}°C</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% elif error_message %}
+        <div class="weather-result">
+            <p>{{ error_message }}</p>
+        </div>
+        {% else %}
+        <div class="weather-result">
+            <p>Weather data is not available at the moment.</p>
+        </div>
+        {% endif %}
+        <a href="/crop_recommendation">Crop Recommendation</a>
+    </div>
 </body>
 </html>

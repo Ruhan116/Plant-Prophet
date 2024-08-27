@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Recommendation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crop_styles.css') }}">
 </head>
 <body>
-    <h1>Crop Recommendation System</h1>
+    <header>
+        <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Plant Prophet Logo" class="logo">
+        <h1>Crop Recommendation</h1>
+    </header>
     <form action="{{ url_for('crop_recommendation') }}" method="post" enctype="multipart/form-data">
         <label for="station">Select a station:</label>
         <select id="station" name="station">
@@ -56,11 +61,15 @@
     </form>
     {% if recommended_crops %}
         <h2>Recommended Crops:</h2>
-        <ul>
+        <form action="{{ url_for('add_crops') }}" method="post">
             {% for crop in recommended_crops %}
-                <li>{{ crop }}</li>
+                <input type="checkbox" id="{{ crop }}" name="crops" value="{{ crop }}">
+                <label for="{{ crop }}">{{ crop }}</label><br>
             {% endfor %}
-        </ul>
+            <input type="hidden" name="predicted_soil_type" value="{{ predicted_soil_type }}">
+            <br>
+            <input type="submit" value="Add to My Crops">
+        </form>
         <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
     {% endif %}
 </body>

@@ -1,8 +1,9 @@
+import os
+import sqlite3
 import numpy as np
 import joblib
-import os
 import requests
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, g
 from werkzeug.utils import secure_filename
 from tensorflow.keras.models import load_model  # type: ignore
 from tensorflow.keras.preprocessing import image  # type: ignore
@@ -38,6 +39,7 @@ google = oauth.register(
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration'
 )
 
+
 # Set the upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -64,7 +66,34 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/', methods=['GET', 'POST'])
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect('user_data.db')
+    return g.db
+
+@app.teardown_appcontext
+def close_db(error):
+    if 'db' in g:
+        g.db.close()
+
+def init_db():
+    with app.app_context():
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS user_crops (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            email TEXT NOT NULL,
+                            crop TEXT NOT NULL
+                          )''')
+        db.commit()
+
+init_db()
+
+@app.route('/')
+def landing():
+    return render_template('landing.html')
+
+@app.route('/weather', methods=['GET', 'POST'])
 def index():
     api_key = os.getenv('OPENWEATHER_KEY')
     weather_data = None
@@ -114,7 +143,6 @@ def crop_recommendation():
                 # Get rainfall data
                 current_year = datetime.now().year
                 current_month = datetime.now().month
-                # Assuming you have a function or API to get the expected rainfall
                 station = request.form['station']
                 rainfall = get_expected_rainfall(station, current_year, current_month)
                 
@@ -154,17 +182,46 @@ def crop_recommendation():
             return str(e)
     return render_template('crop_recommendation.html')
 
+@app.route('/articles')
+@login_required
+def articles():
+    # Render the articles page
+    return render_template('articles.html')
+
+@app.route('/add_crops', methods=['POST'])
+@login_required
+def add_crops():
+    selected_crops = request.form.getlist('crops')
+    email = session['profile']['email']
+    db = get_db()
+    cursor = db.cursor()
+    
+    # Check and add each selected crop to avoid duplicates
+    for crop in selected_crops:
+        cursor.execute('SELECT COUNT(*) FROM user_crops WHERE email = ? AND crop = ?', (email, crop))
+        if cursor.fetchone()[0] == 0:
+            cursor.execute('INSERT INTO user_crops (email, crop) VALUES (?, ?)', (email, crop))
+    
+    db.commit()
+    return redirect(url_for('mycrops'))
+
+@app.route('/mycrops')
+@login_required
+def mycrops():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('SELECT crop FROM user_crops WHERE email = ?', (session['profile']['email'],))
+    crops = cursor.fetchall()
+    return render_template('mycrops.html', crops=[crop[0] for crop in crops])
+
 def get_expected_rainfall(station, year, month):
     # Placeholder function to simulate getting expected rainfall data
-    # You should replace this with actual logic or API call to get the expected rainfall
     return 100.0  # Dummy value for rainfall
 
 @app.route('/login')
 def login():
-    print("Accessing login route")
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
-    print(f"Redirect URI: {redirect_uri}")
     return google.authorize_redirect(redirect_uri)
 
 @app.route('/authorize')
@@ -174,14 +231,14 @@ def authorize():
     resp = google.get('userinfo')
     user_info = resp.json()
     session['profile'] = user_info
-    session.permanent = True
-    return redirect('/')
+    session.permanent = True  # Make the session permanent so it keeps existing after browser gets closed.
+    return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
     for key in list(session.keys()):
         session.pop(key)
-    return redirect('/')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

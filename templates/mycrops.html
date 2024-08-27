@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Crops</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mycrop_styles.css') }}">
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Plant Prophet Logo" class="logo">
+        <h1>My Crops</h1>
+    </header>
+    <main>
+        <div class="crop-gallery">
+            {% for crop in crops %}
+                <div class="crop-item">
+                    <img src="{{ url_for('static', filename='images/' ~ crop ~ '.png') }}" alt="{{ crop }}">
+                    <p>{{ crop }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </main>
+</body>
+</html>

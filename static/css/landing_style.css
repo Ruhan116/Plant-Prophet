@@ -1,0 +1,146 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e8f5e9;
+    background: url('leaves.jpg') no-repeat center center fixed;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(211, 223, 209);
+    border-radius: 10px;
+}
+
+header {
+    background-color: #b3cfb2;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    max-height: 80px;
+    margin-right: 40px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add gap for spacing between buttons */
+    flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.sign-in-btn, .home-btn, .weather-btn {
+    background-color: #ffffff;
+    color: #78B670;
+    border: 2px solid #78B670;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1em;
+    font-weight: bold;
+    flex: 1 1 auto; /* Allow buttons to flex and prevent overflow */
+    margin: 5px; /* Add margin for spacing */
+}
+
+.sign-in-btn:hover, .home-btn:hover, .weather-btn:hover {
+    background-color: #78B670;
+    color: #ffffff;
+}
+
+.manage-farm {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    background: transparent;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    text-align: center;
+}
+
+.manage-farm h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.farm-options {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.option {
+    cursor: pointer;
+    transition: transform 0.3s;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.0);
+    width: 30%;
+    margin: 10px 0;
+    flex: 1 0 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.option:hover {
+    transform: scale(1.05);
+}
+
+.option img {
+    max-width: 120px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    border: 2px solid #4caf50;
+}
+
+@media (max-width: 768px) {
+    .header-right {
+        justify-content: center; /* Center buttons on smaller screens */
+    }
+
+    .sign-in-btn, .home-btn, .weather-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    header, footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sign-in-btn, .home-btn, .weather-btn {
+        margin-left: 0;
+        margin-bottom: 10px;
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}

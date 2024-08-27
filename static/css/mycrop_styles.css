@@ -1,0 +1,90 @@
+/* mycrop_styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f3e6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('background-pattern.png');
+    background-size: cover;
+    background-position: center;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 200px; /* Increased height */
+    margin-right: 20px;
+}
+
+h1 {
+    color: #2e8b57;
+    font-size: 2.5em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    width: 100%;
+}
+
+.crop-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.crop-item {
+    background-color: #f5f5f5;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+    width: 150px;
+}
+
+.crop-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.crop-item p {
+    font-size: 1.2em;
+    color: #2e8b57;
+    margin-top: 10px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.1em;
+    color: #2e8b57;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid #2e8b57;
+    border-radius: 5px;
+    text-align: center;
+}
+
+a:hover {
+    background-color: #2e8b57;
+    color: #fff;
+}
