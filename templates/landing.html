@@ -16,11 +16,9 @@
                 <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Logo" class="logo">
                 <div class="header-right">
                     <div class="btn-group">
-                        <button class="sign-in-btn" onclick="window.location.href='/login'">Sign In</button>
+                        <button class="sign-in-btn" onclick="window.location.href='/login'"><i class="fa-brands fa-google"></i></button>
                         <button class="home-btn" onclick="window.location.href='/'"><i class="fa-solid fa-house"></i></button>
-                        <button class="weather-btn" onclick="window.location.href='/weather'"><i class="fa-solid fa-cloud"></i></button>
                     </div>
-                    <!-- <p class="greeting">Good Morning, <span id="username">Leonard</span></p> -->
                 </div>
             </div>
         </header>
@@ -35,9 +33,9 @@
                         <img src="{{ url_for('static', filename='images/crops.png') }}" alt="Crop Recommendation">
                         <p class ="text-muted fw-bold">Crop Predict</p>
                     </div>
-                    <div class="option" onclick="window.location.href='/articles'">
-                        <img src="{{ url_for('static', filename='images/news.png') }}" alt="Articles">
-                        <p class ="text-muted fw-bold">Articles</p>
+                    <div class="option" onclick="window.location.href='/weather'">
+                        <img src="{{ url_for('static', filename='images/weather.png') }}" alt="Articles">
+                        <p class ="text-muted fw-bold">Weather</p>
                     </div>
                 </div>
             </section>

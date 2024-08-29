@@ -44,6 +44,26 @@ form {
     margin-top: 20px;
 }
 
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.left-form, .right-container {
+    width: 48%; /* Adjust this percentage to control the width of each section */
+}
+
+.right-container {
+    margin-left: 20px; /* Add some space between the sections */
+}
+
+.right-container h2 {
+    margin-top: 0;
+}
+
+
+
 label {
     font-weight: bold;
     display: block;

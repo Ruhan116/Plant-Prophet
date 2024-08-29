@@ -4,79 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Prophet</title>
-    <style>
-        body {
-            background-color: #9c27b0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .weather-app {
-            background-color: #ba68c8;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-        }
-        .weather-app h1 {
-            color: white;
-            margin-bottom: 20px;
-        }
-        .weather-app input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            width: calc(100% - 20px);
-            margin-bottom: 10px;
-        }
-        .weather-app input[type="submit"] {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #ab47bc;
-            color: white;
-            cursor: pointer;
-        }
-        .weather-app .weather-result {
-            background-color: #ba68c8;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            color: white;
-        }
-        .weather-app .weather-result h2 {
-            margin: 0;
-        }
-        .weather-app .weather-result p {
-            margin: 5px 0;
-        }
-        .weather-app .weather-icon {
-            width: 50px;
-            height: 50px;
-            margin: 10px 0;
-        }
-        .weather-app .hourly-forecast {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .weather-app .hour {
-            text-align: center;
-        }
-        .weather-app .hour img {
-            width: 30px;
-            height: 30px;
-        }
-        .weather-app a {
-            color: white;
-            display: block;
-            margin-top: 20px;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crop_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <div class="weather-app">

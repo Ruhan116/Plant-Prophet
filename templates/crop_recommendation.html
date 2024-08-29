@@ -5,72 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Recommendation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/crop_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <header>
-        <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Plant Prophet Logo" class="logo">
-        <h1>Crop Recommendation</h1>
-    </header>
-    <form action="{{ url_for('crop_recommendation') }}" method="post" enctype="multipart/form-data">
-        <label for="station">Select a station:</label>
-        <select id="station" name="station">
-            <option value="Barisal">Barisal</option>
-            <option value="Bhola">Bhola</option>
-            <option value="Bogra">Bogra</option>
-            <option value="Chandpur">Chandpur</option>
-            <option value="Chittagong">Chittagong</option>
-            <option value="Comilla">Comilla</option>
-            <option value="Cox's Bazar">Cox's Bazar</option>
-            <option value="Dhaka">Dhaka</option>
-            <option value="Dinajpur">Dinajpur</option>
-            <option value="Faridpur">Faridpur</option>
-            <option value="Feni">Feni</option>
-            <option value="Hatiya">Hatiya</option>
-            <option value="Ishurdi">Ishurdi</option>
-            <option value="Jessore">Jessore</option>
-            <option value="Khepupara">Khepupara</option>
-            <option value="Khulna">Khulna</option>
-            <option value="Kutubdia">Kutubdia</option>
-            <option value="M.court">M.court</option>
-            <option value="Madaripur">Madaripur</option>
-            <option value="Mymensingh">Mymensingh</option>
-            <option value="Patuakhali">Patuakhali</option>
-            <option value="Rajshahi">Rajshahi</option>
-            <option value="Rangamati">Rangamati</option>
-            <option value="Rangpur">Rangpur</option>
-            <option value="Sandwip">Sandwip</option>
-            <option value="Satkhira">Satkhira</option>
-            <option value="Sitakunda">Sitakunda</option>
-            <option value="Srimangal">Srimangal</option>
-            <option value="Sylhet">Sylhet</option>
-            <option value="Teknaf">Teknaf</option>
-            <option value="Tangail">Tangail</option>
-            <option value="Chuadanga">Chuadanga</option>
-            <option value="Mongla">Mongla</option>
-            <option value="Sydpur">Sydpur</option>
-            <option value="Ambagan(Ctg)">Ambagan(Ctg)</option>
-        </select>
-        <br><br>
-        <label for="city">Enter your city:</label>
-        <input type="text" id="city" name="city" required>
-        <br><br>
-        <label for="image">Upload an image of soil:</label>
-        <input type="file" id="image" name="image" accept="image/*" required>
-        <br><br>
-        <input type="submit" value="Get Recommendation">
-    </form>
-    {% if recommended_crops %}
-        <h2>Recommended Crops:</h2>
-        <form action="{{ url_for('add_crops') }}" method="post">
-            {% for crop in recommended_crops %}
-                <input type="checkbox" id="{{ crop }}" name="crops" value="{{ crop }}">
-                <label for="{{ crop }}">{{ crop }}</label><br>
-            {% endfor %}
-            <input type="hidden" name="predicted_soil_type" value="{{ predicted_soil_type }}">
-            <br>
-            <input type="submit" value="Add to My Crops">
-        </form>
-        <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
-    {% endif %}
+        <div class="container">
+            <header>
+                <div class="header-content">
+                    <img src="{{ url_for('static', filename='images/plant_prophet.png') }}" alt="Logo" class="logo">
+                    <div class="header-right">
+                        <div class="btn-group">
+                            <button class="sign-in-btn" onclick="window.location.href='/login'"><i class="fa-brands fa-google"></i></button>
+                            <button class="home-btn" onclick="window.location.href='/'"><i class="fa-solid fa-house"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div class="form-container">
+                    <form action="{{ url_for('crop_recommendation') }}" method="post" enctype="multipart/form-data">
+                        <label for="station">Select a station:</label>
+                        <select id="station" name="station">
+                            <option value="Barisal">Barisal</option>
+                            <option value="Bhola">Bhola</option>
+                            <option value="Bogra">Bogra</option>
+                            <option value="Chandpur">Chandpur</option>
+                            <option value="Chittagong">Chittagong</option>
+                            <option value="Comilla">Comilla</option>
+                            <option value="Cox's Bazar">Cox's Bazar</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Dinajpur">Dinajpur</option>
+                            <option value="Faridpur">Faridpur</option>
+                            <option value="Feni">Feni</option>
+                            <option value="Hatiya">Hatiya</option>
+                            <option value="Ishurdi">Ishurdi</option>
+                            <option value="Jessore">Jessore</option>
+                            <option value="Khepupara">Khepupara</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Kutubdia">Kutubdia</option>
+                            <option value="M.court">M.court</option>
+                            <option value="Madaripur">Madaripur</option>
+                            <option value="Mymensingh">Mymensingh</option>
+                            <option value="Patuakhali">Patuakhali</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Rangamati">Rangamati</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Sandwip">Sandwip</option>
+                            <option value="Satkhira">Satkhira</option>
+                            <option value="Sitakunda">Sitakunda</option>
+                            <option value="Srimangal">Srimangal</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Teknaf">Teknaf</option>
+                            <option value="Tangail">Tangail</option>
+                            <option value="Chuadanga">Chuadanga</option>
+                            <option value="Mongla">Mongla</option>
+                            <option value="Sydpur">Sydpur</option>
+                            <option value="Ambagan(Ctg)">Ambagan(Ctg)</option>
+                        </select>
+                        <br><br>
+                        <label for="city">Enter your city:</label>
+                        <input type="text" id="city" name="city" required>
+                        <br><br>
+                        <label for="image">Upload an image of soil:</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+                        <br><br>
+                        <input type="submit" value="Get Recommendation">
+                    </form>
+                    {% if recommended_crops %}
+                    <div class="right-container">
+                        <h2>Recommended Crops:</h2>
+                        <form action="{{ url_for('add_crops') }}" method="post">
+                            {% for crop in recommended_crops %}
+                                <input type="checkbox" id="{{ crop }}" name="crops" value="{{ crop }}">
+                                <label for="{{ crop }}">{{ crop }}</label><br>
+                            {% endfor %}
+                            <input type="hidden" name="predicted_soil_type" value="{{ predicted_soil_type }}">
+                            <br>
+                            <input type="submit" value="Add to My Crops">
+                        </form>
+                        <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+    
 </body>
 </html>

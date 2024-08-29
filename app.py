@@ -180,12 +180,6 @@ def crop_recommendation():
             return str(e)
     return render_template('crop_recommendation.html')
 
-@app.route('/articles')
-@login_required
-def articles():
-    # Render the articles page
-    return render_template('articles.html')
-
 @app.route('/add_crops', methods=['POST'])
 @login_required
 def add_crops():
@@ -262,13 +256,13 @@ def authorize():
     user_info = resp.json()
     session['profile'] = user_info
     session.permanent = True  # Make the session permanent so it keeps existing after browser gets closed.
-    return redirect(url_for('index'))
+    return redirect(url_for('landing'))
 
 @app.route('/logout')
 def logout():
     for key in list(session.keys()):
         session.pop(key)
-    return redirect(url_for('index'))
+    return redirect(url_for('landing'))
 
 if __name__ == '__main__':
     app.run(debug=True)
