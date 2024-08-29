@@ -10,6 +10,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, GradientBoostingClassifier, AdaBoostClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import StratifiedKFold
 
 # Load data
 crop = pd.read_csv("Crop_recommendation.csv")
@@ -29,15 +31,6 @@ x = crop.drop(['crop_num', 'label'], axis=1)
 y = crop['crop_num']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
-# Scale data
-ms = MinMaxScaler()
-x_train = ms.fit_transform(x_train)
-x_test = ms.transform(x_test)
-
-sc = StandardScaler()
-x_train = sc.fit_transform(x_train)
-x_test = sc.transform(x_test)
-
 # Define models
 models = {
     'Logistic Regression': LogisticRegression(),
@@ -47,24 +40,30 @@ models = {
     'Decision Tree': DecisionTreeClassifier(),
     'Random Forest': RandomForestClassifier(),
     'Bagging': BaggingClassifier(),
-    'AdaBoost': AdaBoostClassifier(algorithm='SAMME'),
+    'AdaBoost': AdaBoostClassifier(algorithm='SAMME.R'),  # Default is SAMME.R
     'Gradient Boosting': GradientBoostingClassifier(),
     'Extra Trees': ExtraTreeClassifier(),
 }
 
-# Evaluate models and find the best one
+# Evaluate models and find the best one using cross-validation
 best_model = None
 best_accuracy = 0
 best_model_name = ""
 
 for name, model in models.items():
-    scores = cross_val_score(model, x_train, y_train, cv=5, scoring='accuracy')
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),  # Using StandardScaler, as it generally works well for most models
+        ('model', model)
+    ])
+    
+    # Use StratifiedKFold to ensure that each fold has the same proportion of classes
+    scores = cross_val_score(pipeline, x_train, y_train, cv=StratifiedKFold(n_splits=5), scoring='accuracy')
     mean_accuracy = scores.mean()
     print(f"{name} with accuracy: {mean_accuracy}")
 
     if mean_accuracy > best_accuracy:
         best_accuracy = mean_accuracy
-        best_model = model
+        best_model = pipeline
         best_model_name = name
 
 print(f"Best model: {best_model_name} with accuracy: {best_accuracy}")
@@ -72,7 +71,7 @@ print(f"Best model: {best_model_name} with accuracy: {best_accuracy}")
 # Train the best model on the entire training set
 best_model.fit(x_train, y_train)
 
-# Save the best model
+# Save the best model and scaler
 joblib.dump(best_model, 'crop_recommendation_model.pkl')
 
 # Test the best model on the test set

@@ -8,9 +8,8 @@ model = load_model('soil.h5')
 
 # Soil type labels (update these to match your dataset)
 soil_labels = [
-    'Alluvial Soil', 'Black Soil', 'Cinder Soil', 'Clayey soils',
-    'Laterite Soil', 'Loamy Soil', 'Peat Soil', 'Red Soil',
-    'Sandy Loam Soil', 'Sandy Soil', 'Yellow Soil'
+    'Alluvial Soil', 'Clayey soils', 'Loamy Soil', 'Peat Soil', 'Red Soil',
+    'Sandy Loam Soil'
 ]
 
 def preprocess_image(image_path, target_size=(256, 256)):
@@ -38,7 +37,7 @@ def predict_soil_type(image_path):
 if __name__ == '__main__':
     # Set up argument parsing
     parser = argparse.ArgumentParser(description='Soil Type Prediction from Image')
-    parser.add_argument('image_path', type=str, help='Path to the image file')
+    parser.add_argument('image_path', type=str, help='D:\TempData\Clayey soils\clay 1.png')
     
     args = parser.parse_args()
     

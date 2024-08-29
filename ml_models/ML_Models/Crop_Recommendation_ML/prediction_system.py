@@ -1,55 +1,40 @@
-import joblib
 import numpy as np
+import joblib
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-# Load the saved model
-model = joblib.load('crop_recommendation_model.pkl')
-
-# Load data to get scalers
-crop = pd.read_csv("Crop_recommendation.csv")
-
-# Split data for scalers
-x = crop.drop(['label'], axis=1)
-
-# Scale data
-ms = MinMaxScaler()
-x = ms.fit_transform(x)
-
-sc = StandardScaler()
-x = sc.fit_transform(x)
-
-def preprocess_input(data):
-    data = np.array(data).reshape(1, -1)
-    data = ms.transform(data)
-    data = sc.transform(data)
-    return data
-
-# Crop dictionary to decode the numerical prediction back to crop names
+# Load the crop dictionary from the training script
 crop_dict = {
-    1: 'rice', 2: 'maize', 3: 'jute', 4: 'cotton', 5: 'coconut', 6: 'papaya',
-    7: 'orange', 8: 'apple', 9: 'muskmelon', 10: 'watermelon', 11: 'grapes',
-    12: 'mango', 13: 'banana', 14: 'pomegranate', 15: 'lentil', 16: 'blackgram',
-    17: 'mungbean', 18: 'mothbeans', 19: 'pigeonpeas', 20: 'kidneybeans',
-    21: 'chickpea', 22: 'coffee'
+    'rice': 1, 'maize': 2, 'jute': 3, 'cotton': 4, 'coconut': 5, 'papaya': 6,
+    'orange': 7, 'apple': 8, 'muskmelon': 9, 'watermelon': 10, 'grapes': 11,
+    'mango': 12, 'banana': 13, 'pomegranate': 14, 'lentil': 15, 'blackgram': 16,
+    'mungbean': 17, 'mothbeans': 18, 'pigeonpeas': 19, 'kidneybeans': 20,
+    'chickpea': 21, 'coffee': 22
 }
 
-def predict_crop(N, P, K, temperature, humidity, pH, rainfall):
-    data = [N, P, K, temperature, humidity, pH, rainfall]
-    preprocessed_data = preprocess_input(data)
-    prediction = model.predict(preprocessed_data)
-    predicted_crop = crop_dict[prediction[0]]
-    return predicted_crop
+# Inverse crop dictionary for decoding
+inverse_crop_dict = {v: k for k, v in crop_dict.items()}
 
-if __name__ == "__main__":
-    print("Enter the following values:")
-    N = float(input("Nitrogen (N): "))
-    P = float(input("Phosphorus (P): "))
-    K = float(input("Potassium (K): "))
-    temperature = float(input("Temperature (°C): "))
-    humidity = float(input("Humidity (%): "))
-    pH = float(input("pH level: "))
-    rainfall = float(input("Rainfall (mm): "))
+def recommend_top_5_crops(input_data):
+    # Load the pipeline model
+    model_pipeline = joblib.load('crop_recommendation_model.pkl')
     
-    recommended_crop = predict_crop(N, P, K, temperature, humidity, pH, rainfall)
-    print(f"The recommended crop for the given conditions is: {recommended_crop}")
+    # Ensure input data is in the right shape (e.g., one sample with all features)
+    input_data = np.array(input_data).reshape(1, -1)
+    
+    # Predict probabilities using the pipeline (it handles scaling internally)
+    probabilities = model_pipeline.predict_proba(input_data)[0]
+    
+    # Get the top 5 crop indices
+    top_5_indices = np.argsort(probabilities)[-5:][::-1]
+    
+    # Get the corresponding crop names
+    top_5_crops = [inverse_crop_dict[idx + 1] for idx in top_5_indices]
+    
+    return top_5_crops
+
+# Example usage:
+if __name__ == "__main__":
+    # Example input data (replace with actual input)
+    example_input = [80, 40, 45, 28.0, 80.0, 6.5, 300.0]  # Example feature values
+    top_5_crops = recommend_top_5_crops(example_input)
+    print("Top 5 recommended crops:", top_5_crops)

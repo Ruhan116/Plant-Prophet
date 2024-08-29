@@ -3,6 +3,8 @@ import sqlite3
 import numpy as np
 import joblib
 import requests
+import pandas as pd
+
 from flask import Flask, request, render_template, redirect, url_for, session, g
 from werkzeug.utils import secure_filename
 from tensorflow.keras.models import load_model  # type: ignore
@@ -12,6 +14,7 @@ from authlib.integrations.flask_client import OAuth
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from functools import wraps
+from sklearn.preprocessing import OneHotEncoder
 
 app = Flask(__name__)
 
@@ -128,7 +131,7 @@ def crop_recommendation():
                 img_array = np.expand_dims(img_array, axis=0) / 255.0
                 predictions = soil_model.predict(img_array)
                 predicted_class = np.argmax(predictions, axis=1)[0]
-                soil_types = ['Alluvial Soil', 'Black Soil', 'Cinder Soil', 'Clayey Soils', 'Laterite Soil', 'Loamy Soil', 'Peat Soil', 'Red Soil', 'Sandy Loam Soil', 'Sandy Soil', 'Yellow Soil']
+                soil_types = ['Alluvial Soil', 'Clayey Soils', 'Loamy Soil', 'Peat Soil', 'Red Soil', 'Sandy Loam Soil']
                 predicted_soil_type = soil_types[predicted_class]
                 
                 # Get weather data
@@ -149,16 +152,11 @@ def crop_recommendation():
                 # Assuming these values for N, P, K, and pH based on the predicted soil type
                 soil_npk_ph = {
                     'Alluvial Soil': (50, 20, 30, 6.5),
-                    'Black Soil': (60, 30, 40, 7.0),
-                    'Cinder Soil': (40, 10, 20, 6.0),
                     'Clayey Soils': (70, 40, 50, 7.5),
-                    'Laterite Soil': (30, 20, 10, 5.5),
                     'Loamy Soil': (80, 50, 60, 7.0),
                     'Peat Soil': (20, 10, 15, 5.0),
                     'Red Soil': (50, 30, 40, 6.0),
-                    'Sandy Loam Soil': (60, 40, 50, 6.5),
-                    'Sandy Soil': (30, 10, 20, 6.0),
-                    'Yellow Soil': (50, 20, 30, 6.5)
+                    'Sandy Loam Soil': (60, 40, 50, 6.5)
                 }
                 
                 N, P, K, ph = soil_npk_ph[predicted_soil_type]
@@ -215,8 +213,40 @@ def mycrops():
     return render_template('mycrops.html', crops=[crop[0] for crop in crops])
 
 def get_expected_rainfall(station, year, month):
-    # Placeholder function to simulate getting expected rainfall data
-    return 100.0  # Dummy value for rainfall
+    # Load the trained model and the pre-fitted encoder
+    model = joblib.load('ml_models/rainfall_prediction_model.pkl')
+    station_encoder = joblib.load('ml_models/station_encoder.pkl')  # Pre-fitted encoder
+    
+    # Ensure the inputs are valid
+    if year < 2014:
+        raise ValueError("Year should be 2014 or later.")
+    if month < 1 or month > 12:
+        raise ValueError("Month should be between 1 and 12.")
+    
+    # List of valid stations (these should match the ones used to fit the encoder)
+    valid_stations = station_encoder.categories_[0]  # Get the categories from the encoder
+    if station not in valid_stations:
+        raise ValueError(f"Station '{station}' not found in the list of valid stations.")
+    
+    # Create a dataframe for the input
+    input_df = pd.DataFrame({
+        'Year': [year],
+        'Month': [month],
+        'Station': [station]
+    })
+    
+    # One-hot encode the Station column
+    station_encoded = station_encoder.transform(input_df[['Station']])
+    station_columns = station_encoder.get_feature_names_out(['Station'])
+    input_encoded_df = pd.DataFrame(station_encoded, columns=station_columns)
+    
+    # Merge the encoded station data with year and month
+    input_df = pd.concat([input_df[['Year', 'Month']], input_encoded_df], axis=1)
+    
+    # Predict the rainfall
+    predicted_rainfall = model.predict(input_df)[0]
+    
+    return predicted_rainfall
 
 @app.route('/login')
 def login():

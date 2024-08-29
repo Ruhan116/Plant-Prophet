@@ -12,13 +12,13 @@ from PIL import Image
 from os import listdir
 from os.path import isfile, join
 from random import randrange
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Flatten, Dropout
-from tensorflow.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import load_model # type: ignore
+from tensorflow.keras.preprocessing import image # type: ignore
+from tensorflow.keras.preprocessing.image import ImageDataGenerator # type: ignore
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Dense, Activation, Flatten, Dropout # type: ignore
+from tensorflow.keras.layers import Conv2D, MaxPooling2D # type: ignore
+from tensorflow.keras.callbacks import EarlyStopping # type: ignore
 
 training_dir = r'train_dir'
 test_dir = r'test_dir'
@@ -80,7 +80,7 @@ for _ in range(num_dense_layers):
     model.add(Dropout(0.5))
 
 # Add output layer
-model.add(Dense(11))  # Update the number of output neurons
+model.add(Dense(6))  # Update the number of output neurons
 model.add(Activation('softmax'))
 
 # Compile the model
