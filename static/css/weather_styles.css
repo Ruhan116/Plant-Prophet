@@ -1,0 +1,54 @@
+/* weather_styles.css */
+form {
+    background-color: #b3cfb2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 1880px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.weather-result {
+    background-color: #b3cfb2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 1880px;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.weather-result h2{
+    color: #556b2f;
+    font-size: 1.36em;
+
+}
+
+select, input[type="text"], input[type="file"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #555555;
+    border-radius: 10px;
+    font-size: 0.9em;
+}
+
+input[type="submit"] {
+    background-color: #81ab7f;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+input[type="submit"]:hover {
+    background-color: #699c67;
+}

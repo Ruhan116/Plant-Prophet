@@ -1,3 +1,4 @@
+Tanjil, [8/30/2024 1:30 AM]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +59,9 @@
                             <option value="Sylhet">Sylhet</option>
                             <option value="Teknaf">Teknaf</option>
                             <option value="Tangail">Tangail</option>
-                            <option value="Chuadanga">Chuadanga</option>
+
+Tanjil, [8/30/2024 1:30 AM]
+<option value="Chuadanga">Chuadanga</option>
                             <option value="Mongla">Mongla</option>
                             <option value="Sydpur">Sydpur</option>
                             <option value="Ambagan(Ctg)">Ambagan(Ctg)</option>
@@ -74,6 +77,7 @@
                     </form>
                     {% if recommended_crops %}
                     <div class="right-container">
+                        <h2>Predicted Soil Type: {{ predicted_soil_type }}</h2> 
                         <h2>Recommended Crops:</h2>
                         <form action="{{ url_for('add_crops') }}" method="post">
                             {% for crop in recommended_crops %}
@@ -83,13 +87,11 @@
                             <input type="hidden" name="predicted_soil_type" value="{{ predicted_soil_type }}">
                             <br>
                             <input type="submit" value="Add to My Crops">
-                        </form>
-                        <p>Predicted Soil Type: {{ predicted_soil_type }}</p>
+                        </form>   
                     </div>
                     {% endif %}
                 </div>
             </main>
         </div>
-    
 </body>
 </html>
