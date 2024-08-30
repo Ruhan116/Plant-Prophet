@@ -118,3 +118,18 @@ p {
     color: #556b2f;
     text-align: center;
 }
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 300px;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.footer-bottom footer {
+    color: rgb(107, 150, 107);
+    font: Arial sans-serif;
+}
